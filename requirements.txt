@@ -1,0 +1,18 @@
+# =========================================================
+# Stata Code Agent 依赖
+# =========================================================
+
+# --- LLM API ---
+openai>=1.0.0
+python-dotenv>=1.0.0
+
+# --- LangChain 核心 ---
+langchain-core>=0.3.0
+langgraph>=0.2.0
+langchain-mcp-adapters>=0.1.0
+
+# --- MCP ---
+mcp>=1.0.0
+
+# --- Stata (由 Stata 17 安装目录提供) ---
+# pystata → 已通过 .pth 文件安装

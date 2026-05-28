@@ -1,0 +1,12 @@
+"""配置模块"""
+from config.settings import (
+    DEEPSEEK_API_KEY,
+    DEEPSEEK_BASE_URL,
+    CODER_MODEL,
+    REVIEWER_MODEL,
+    CODER_TEMPERATURE,
+    REVIEWER_TEMPERATURE,
+    MAX_RETRY,
+    STATA_WORK_DIR,
+)
+
