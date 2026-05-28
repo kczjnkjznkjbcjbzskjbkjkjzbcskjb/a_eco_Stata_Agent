@@ -114,46 +114,11 @@ class StataMCPManager:
         if self._tools is None:
             logger.info("[MCP] 加载工具中...")
 
-            raw_tools = await load_mcp_tools(self._session)
-
-            # ==============================
-            # 🔥 关键增强：工具包装层
-            # ==============================
-            self._tools = [
-                self._wrap_tool(t) for t in raw_tools
-            ]
+            self._tools = await load_mcp_tools(self._session)
 
             logger.info(f"[MCP] 加载完成: {len(self._tools)} tools")
 
         return self._tools
-
-    # ==================== tool wrapper ====================
-    def _wrap_tool(self, tool):
-        """
-        标准化 tool 输出（关键修复点）
-        """
-
-        async def safe_ainvoke(**kwargs):
-            try:
-                result = await tool.ainvoke(kwargs)
-
-                return {
-                    "ok": True,
-                    "tool": tool.name,
-                    "result": result,
-                    "error": None,
-                }
-
-            except Exception as e:
-                return {
-                    "ok": False,
-                    "tool": tool.name,
-                    "result": None,
-                    "error": str(e),
-                }
-
-        tool.ainvoke = safe_ainvoke
-        return tool
 
     # ==================== disconnect ====================
     async def disconnect(self) -> None:

@@ -25,7 +25,7 @@ async def read_file(path: str) -> str:
 
     try:
         # 尝试多种编码
-        for encoding in ["utf-8", "gbk", "gb2312", "latin-1"]:
+        for encoding in ["utf-8-sig", "utf-8", "gbk", "gb2312", "latin-1"]:
             try:
                 content = file_path.read_text(encoding=encoding)
                 logger.info(f"读取文件成功: {path} ({len(content)} 字符, 编码: {encoding})")
@@ -56,7 +56,7 @@ async def create_do_file(path: str, content: str) -> str:
 
     try:
         file_path.parent.mkdir(parents=True, exist_ok=True)
-        file_path.write_text(content, encoding="utf-8")
+        file_path.write_text(content, encoding="utf-8-sig")
         logger.info(f"创建文件成功: {file_path} ({len(content)} 字符)")
         return f"文件已创建: {file_path}\n--- 内容 ---\n{content}"
     except Exception as e:
@@ -80,7 +80,7 @@ async def modify_do_file(path: str, content: str) -> str:
         return f"Error: 文件不存在: {file_path}。如需创建新文件请使用 create_do_file。"
 
     try:
-        file_path.write_text(content, encoding="utf-8")
+        file_path.write_text(content, encoding="utf-8-sig")
         logger.info(f"修改文件成功: {file_path} ({len(content)} 字符)")
         return f"文件已修改: {file_path}\n--- 新内容 ---\n{content}"
     except Exception as e:
@@ -132,7 +132,7 @@ if __name__ == "__main__":
         new_content = "sysuse auto, clear\nreg price mpg weight"
         result = await modify_do_file.ainvoke({"path": str(test_file), "content": new_content})
         assert "已修改" in result
-        stored = test_file.read_text(encoding="utf-8")
+        stored = test_file.read_text(encoding="utf-8-sig")
         assert "weight" in stored
         print("✅ modify_do_file → 成功修改")
 
